@@ -12,31 +12,74 @@ permissions:
   contents: write  # Grants permission to create releases
 
 jobs:
-  build:
+  build-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
           cache: maven
 
-      - name: Build & Test
+      - name: Run Build
         run: mvn clean package
 
+      - name: Run Tests
+        run: mvn test
+
+      - name: Verify Build Artifacts
+        run: ls -lah target/
+        
       - name: Upload JAR as Artifact (optional)
         uses: actions/upload-artifact@v4
         with:
           name: my-project-jar
           path: target/*.jar
 
-      - name: Create GitHub Release (when tagged)
-        if: startsWith(github.ref, 'refs/tags/v')
+     - name: Cleanup Target Directory
+        run: rm -rf target/
+
+  release:
+    name: Create Release
+    needs: build-test  # Only run if build-test is successful
+    if: startsWith(github.ref, 'refs/tags/v')  # Ensure this only runs when a tag like v1.0.0 is pushed
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run Build
+        run: mvn clean package
+
+      - name: Ensure ZIP file exists
+        run: |
+          if [ ! -f target/CiCdTestApp-*-release.zip ]; then
+            echo "ERROR: Release ZIP not found!"
+            exit 1
+          fi
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: target/*.jar
-
-      - name: Cleanup Target Directory
-        run: rm -rf target/
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          files: |
+            target/CiCdTestApp-*-release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
