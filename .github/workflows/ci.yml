@@ -80,6 +80,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            target/Default-*-release.zip
+            target/DefaultProject-*-release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
