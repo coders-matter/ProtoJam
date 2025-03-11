@@ -42,7 +42,7 @@ jobs:
           name: my-project-jar
           path: target/*.jar
 
-     - name: Cleanup Target Directory
+      - name: Cleanup Target Directory
         run: rm -rf target/
 
   release:
