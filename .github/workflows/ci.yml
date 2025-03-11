@@ -80,6 +80,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            target/CiCdTestApp-*-release.zip
+            target/Default-*-release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
