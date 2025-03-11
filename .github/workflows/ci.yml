@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 
 permissions:
-	contents: write  # Grants permission to create releases
+  contents: write  # Grants permission to create releases
 	  
 jobs:
   build:
