@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: write  # Grants permission to create releases
-	  
+
 jobs:
   build:
     runs-on: ubuntu-latest
