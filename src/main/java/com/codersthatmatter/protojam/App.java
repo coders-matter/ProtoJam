@@ -1,4 +1,4 @@
-package com.quentaurus.defaults;
+package com.codersthatmatter.protojam;
 
 /**
  * Hello world!
