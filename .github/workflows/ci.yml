@@ -67,7 +67,7 @@ jobs:
 
       - name: Ensure ZIP file exists
         run: |
-          if [ ! -f target/DefaultProject-*-release.zip ]; then
+          if [ ! -f target/ProtoJam-*-release.zip ]; then
             echo "ERROR: Release ZIP not found!"
             exit 1
           fi
@@ -80,6 +80,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            target/DefaultProject-*-release.zip
+            target/ProtoJam-*-release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
