@@ -18,9 +18,9 @@
         
         <!-- Include mySettings.properties (outside of the JAR) -->
         <fileSet>
-            <directory>src/main/java/com/codersthatmatter/protojam/resources</directory>
+            <directory>src/main/java/com/codersthatmatter/protojam/simulator/scenario/resources</directory>
             <includes>
-                <include>mySettings.properties</include>
+                <include>messageConfig.properties</include>
             </includes>
             <outputDirectory>/</outputDirectory>
         </fileSet>
